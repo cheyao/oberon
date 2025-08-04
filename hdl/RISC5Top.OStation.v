@@ -41,6 +41,12 @@ module RISC5Top(
 	output [1:0] VGA_R, VGA_G, VGA_B,
 	input PS2CLKA, PS2DATA, // keyboard
 	inout PS2CLKB, PS2DATB,
+
+    input signed [7:0] mouse_dx,
+    input signed [7:0] mouse_dy,
+    input [2:0] mouse_ibtn,
+    input mouse_report,
+
 	output [2:0] MOUSEBTN,
 	inout [7:0]gpio,
 
@@ -147,6 +153,7 @@ mousem
 Ms
 (
 .clk(clk), .clk_ena(1'b1), .ps2m_reset(~rst), .ps2m_clk(PS2CLKB), .ps2m_dat(PS2DATB),
+.idx(mouse_dx), .idy(mouse_dy), .ibtn(mouse_ibtn), .rpt(mouse_report),
 .x(dataMs[9:0]), .y(dataMs[21:12]), .btn(mousebtn)
 );
 assign dataMs[24] = mousebtn[1]; // left

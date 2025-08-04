@@ -1,21 +1,30 @@
-# Oberon for ULX3S attempt by EMARD
+# Oberon for Icepi Zero
 
 It boots and shows 1024x768 70Hz picture.
-FleaFPGA's
-[https://github.com/Basman74/Oberon_SDRAM](https://github.com/Basman74/Oberon_SDRAM)
-slightly reworked and cleanup'd
+
+Ulx3s's
+https://github.com/emard/oberon
+ported over and slightly reworked
+
+An PS2 keyboard should be plugged into USB1 and an USB mouse on USB2. USB keyboard support is WIP.
 
 wget [oberon disk image](http://www.projectoberon.net/zip/RISCimg.zip),
-unzip, and write it raw to SD card:
+unzip, and write it raw to an SD card:
 
     wget http://www.projectoberon.net/zip/RISCimg.zip
     unzip RISCimg.zip
-    dd if=RISC.img of=/dev/mmcblk0
+    dd if=RISC.img of=/dev/sda
 
 Image will initialize first 2 primary partitions (out of 4) required for
 oberon, rest of SD card (free space) can be used with
 other OS (linux) by creating new primary partition(s)
 there and making new filesystem(s).
+
+# Usage
+
+An USB keyboard with PS2 support should be plugged into USB1 and an USB mouse on USB2. Format a SD card according to the instructions above, plug it in and connect the Icepi to your monitor via the GPDI port and you will be good to go.
+
+For additional instructions please read the [wikipedia page](https://en.wikipedia.org/wiki/Oberon_(operating_system)).
 
 # Disk partition
 

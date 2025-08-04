@@ -38,12 +38,25 @@ module mousem
   input clk, clk_ena,
   input ps2m_reset,
   inout ps2m_clk, ps2m_dat,
+
+  input signed [7:0] idx,
+  input signed [7:0] idy, 
+  input [2:0] ibtn,
+  input rpt,
+
   output reg update,
   output reg [c_x_bits-1:0] x,
   output reg [c_y_bits-1:0] y,
   output reg [c_z_bits-1:0] z,
   output reg [2:0] btn
 );
+  always @(posedge rpt) begin
+    x <= $signed(x) + idx;
+    y <= $signed(y) - idy;
+    btn <= ibtn;
+  end
+
+  /*
   reg [2:0] sent;
   localparam c_rx_bits = c_z_ena ? 42 : 31;
   reg [c_rx_bits-1:0] rx;
@@ -114,5 +127,6 @@ module mousem
     btn <= ~run ? 0 : done ? rx[3:1] : btn;
     update <= done;
   end
+  */
 
 endmodule
