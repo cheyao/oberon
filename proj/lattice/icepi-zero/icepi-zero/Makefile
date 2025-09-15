@@ -33,8 +33,6 @@ VERILOG_FILES = \
   ../../../../hdl/dvi/tmds_encoder.v \
   ../../../../hdl/usb/usb_hid_host.v \
   ../../../../hdl/usb/usb_hid_host_rom.v \
-  ../../../../hdl/usb/usb2ps2.sv \
-  ../../../../hdl/usb/ps2_tx.sv \
 
 # synthesis options
 # YOSYS_OPTIONS = -abc9
@@ -44,15 +42,15 @@ all: debug
 
 .SECONDARY: $(OUTPUT).json $(OUTPUT).config
 
-%.json: $(VERILOG_FILES)
+bitstream.json: $(VERILOG_FILES)
 	rm -f $(OUTPUT).bit $(OUTPUT).config $(OUTPUT).json
 	yosys -p 'synth_ecp5 -abc9 -top $(TOP_MODULE) -json $@' $^
 
-%.config: %.json icepi-zero.lpf
+bitstream.config: bitstream.json icepi-zero.lpf
 	nextpnr-ecp5 --25k --timing-allow-fail --package $(PACKAGE) --lpf icepi-zero.lpf --json $< --textcfg $@ # 2> log.txt
 	# cat log.txt | grep Device -A 28
 
-%.bit: %.config
+bitstream.bit: bitstream.config
 	ecppack $< $@
 
 build: $(OUTPUT).bit
